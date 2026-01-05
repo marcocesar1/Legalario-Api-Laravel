@@ -11,6 +11,7 @@ class CustomerController extends Controller
 {
     public function __construct(private CustomerService $service)
     {}
+    
     /**
      * Display a listing of the resource.
      */

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class Customer extends Model
 {
@@ -16,4 +17,14 @@ class Customer extends Model
     protected $cast = [
         'age' => 'integer',
     ];
+
+    /**
+     * Interact with the country attribute.
+     */
+    protected function country(): Attribute
+    {
+        return Attribute::make(
+            set: fn (string $value) => strtoupper($value),
+        );
+    }
 }

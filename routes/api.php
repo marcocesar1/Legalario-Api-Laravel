@@ -9,4 +9,5 @@ Route::get('/user', function (Request $request) {
 
 Route::prefix('v1')->group(function () {
     Route::resource('customers', App\Http\Controllers\CustomerController::class);
+    Route::get('countries', [App\Http\Controllers\CountryController::class, 'index']);
 });

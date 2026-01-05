@@ -12,9 +12,18 @@ class CustomerService
         return Customer::create($data);
     }
 
-    public function findAll(array $params): Collection
+    public function findAll(array $filters): Collection
     {
-        $customers = Customer::query()->get();
+        $search = $filters['search'] ?? null;
+        $country = $filters['country'] ?? null;
+
+        $customers = Customer::query()
+                        ->when($search, function ($query) use ($search) {
+                            return $query->where('name', 'like', '%' . $search . '%')
+                                        ->orWhere('email', 'like', '%' . $search . '%');
+                        })
+                        ->when($country, fn ($query) => $query->where('country', $country))
+                        ->get();
 
         return $customers;
     }
