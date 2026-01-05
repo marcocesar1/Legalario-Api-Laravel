@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Responses\ApiErrorResponse;
+use App\Http\Responses\ApiSuccessResponse;
 use App\Services\CountryService;
-use Illuminate\Http\Request;
 
 class CountryController extends Controller
 {
@@ -18,11 +19,12 @@ class CountryController extends Controller
         try {
             $data = $this->service->findAll();
 
-            return response()->json($data);
+            return new ApiSuccessResponse($data);
         } catch (\Throwable $th) {
-            return response()->json([
-                'message' => $th->getMessage()
-            ], 500);
+            return new ApiErrorResponse(
+                'Error al obtener los países',
+                $th
+            );
         }
     }
 }

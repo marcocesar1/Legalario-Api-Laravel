@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use App\Models\Customer;
-use Illuminate\Support\Collection;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class CustomerService
 {
@@ -12,10 +12,11 @@ class CustomerService
         return Customer::create($data);
     }
 
-    public function findAll(array $filters): Collection
+    public function findAll(array $filters): LengthAwarePaginator
     {
         $search = $filters['search'] ?? null;
         $country = $filters['country'] ?? null;
+        $perPage = $filters['per_page'] ?? 10;
 
         $customers = Customer::query()
                         ->when($search, function ($query) use ($search) {
@@ -23,7 +24,7 @@ class CustomerService
                                         ->orWhere('email', 'like', '%' . $search . '%');
                         })
                         ->when($country, fn ($query) => $query->where('country', $country))
-                        ->get();
+                        ->paginate($perPage);
 
         return $customers;
     }

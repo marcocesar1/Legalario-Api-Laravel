@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Services\CustomerService;
 use App\Http\Requests\Customer\CreateCustomerRequest;
-
+use App\Http\Responses\ApiErrorResponse;
+use App\Http\Responses\ApiSuccessResponse;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
@@ -20,11 +21,12 @@ class CustomerController extends Controller
         try {
             $data = $this->service->findAll($request->all());
 
-            return response()->json($data);
+            return new ApiSuccessResponse($data);
         } catch (\Throwable $th) {
-            return response()->json([
-                'message' => $th->getMessage()
-            ], 500);
+            return new ApiErrorResponse(
+                'Error al obtener los clientes',
+                $th
+            );
         }
     }
 
@@ -36,11 +38,12 @@ class CustomerController extends Controller
         try {
             $data = $this->service->create($request->all());
 
-            return response()->json($data);
+            return new ApiSuccessResponse($data);
         } catch (\Throwable $th) {
-            return response()->json([
-                'message' => $th->getMessage()
-            ], 500);
+            return new ApiErrorResponse(
+                'Error al crear el cliente',
+                $th
+            );
         }
     }
 
