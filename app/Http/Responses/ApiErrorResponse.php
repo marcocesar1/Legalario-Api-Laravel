@@ -5,6 +5,7 @@ namespace App\Http\Responses;
 use Illuminate\Http\Response;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Contracts\Support\Responsable;
+use Illuminate\Support\Facades\Log;
 
 final class ApiErrorResponse implements Responsable
 {
@@ -21,6 +22,12 @@ final class ApiErrorResponse implements Responsable
     {
         $response = ["message" => $this->message];
 
+        $statusCode = $this->exception->getCode();
+
+        if (!is_int($statusCode) || $statusCode < 100 || $statusCode > 599) {
+            $statusCode = $this->statusCode;
+        }
+
         if (!is_null($this->exception) && config('app.debug')) {
             $response['debug'] = [
                 'message' => $this->exception->getMessage(),
@@ -32,7 +39,7 @@ final class ApiErrorResponse implements Responsable
 
         return response()->json(
             $response,
-            $this->statusCode,
+            $statusCode,
             $this->headers,
             $this->options
         );

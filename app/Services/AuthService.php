@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\User;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
 class AuthService
@@ -10,7 +11,7 @@ class AuthService
     public function login(array $credentials): array
     {
         if(!Auth::attempt($credentials)) {
-            throw new \Exception('Las credenciales no son correctas');
+            throw new \Exception('Las credenciales no son correctas', Response::HTTP_UNAUTHORIZED);
         }
 
         $user = Auth::user();
