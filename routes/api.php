@@ -8,6 +8,14 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::prefix('v1')->group(function () {
-    Route::resource('customers', App\Http\Controllers\CustomerController::class);
-    Route::get('countries', [App\Http\Controllers\CountryController::class, 'index']);
+
+    Route::prefix('auth')->group(function () {
+        Route::post('login', [App\Http\Controllers\AuthController::class, 'login']);
+    });
+
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::resource('customers', App\Http\Controllers\CustomerController::class);
+        Route::get('countries', [App\Http\Controllers\CountryController::class, 'index']);
+    });
+
 });
