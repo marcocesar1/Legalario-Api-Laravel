@@ -16,11 +16,18 @@ class CustomerFactory extends Factory
      */
     public function definition(): array
     {
+        $countries = [
+            'MEX', 'USA', 'CAN', 'BRA', 'ARG',
+            'COL', 'PER', 'CHL', 'ESP', 'FRA',
+            'DEU', 'ITA', 'GBR', 'NLD', 'PRT',
+            'JPN', 'CHN', 'KOR', 'AUS', 'IND',
+        ];
+
         return [
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'age' => fake()->numberBetween(0, 120),
-            'country' => 'MEX',
+            'country' => fake()->randomElement($countries),
         ];
     }
 }

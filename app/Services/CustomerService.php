@@ -24,6 +24,7 @@ class CustomerService
                                         ->orWhere('email', 'like', '%' . $search . '%');
                         })
                         ->when($country, fn ($query) => $query->where('country', $country))
+                        ->orderBy('name')
                         ->paginate($perPage);
 
         return $customers;
