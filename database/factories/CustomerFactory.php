@@ -26,8 +26,8 @@ class CustomerFactory extends Factory
         return [
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
-            'age' => 40,
-            'country' => 'MEX',
+            'age' => fake()->numberBetween(0, 120),
+            'country' => fake()->randomElement($countries)
         ];
     }
 }

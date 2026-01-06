@@ -2,6 +2,10 @@
 
 Este proyecto es una aplicación backend con login y administración de clientes.
 
+Url de la aplicación en producción:
+
+[https://legalario-api-laravel-main-plvc8k.laravel.cloud/](https://legalario-api-laravel-main-plvc8k.laravel.cloud/)
+
 ---
 
 ## 📋 Requisitos previos
