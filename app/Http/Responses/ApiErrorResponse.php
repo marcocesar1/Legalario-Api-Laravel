@@ -20,13 +20,15 @@ final class ApiErrorResponse implements Responsable
 
     public function toResponse($request): JsonResponse
     {
-        $response = ["message" => $this->message];
-
         $statusCode = $this->exception->getCode();
+        $message = $this->exception->getMessage();
 
         if (!is_int($statusCode) || $statusCode < 100 || $statusCode > 599) {
             $statusCode = $this->statusCode;
+            $message = $this->message;
         }
+
+        $response = ["message" => $message];
 
         if (!is_null($this->exception) && config('app.debug')) {
             $response['debug'] = [
