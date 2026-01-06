@@ -1,59 +1,80 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🚀 Proyecto Backend con Laravel
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Este proyecto es una aplicación backend con login y administración de clientes.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 📋 Requisitos previos
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Antes de comenzar, asegúrate de tener instalado lo siguiente:
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- **Docker**
 
-## Learning Laravel
+Puedes verificar la versión de Docker ejecutando el siguiente comando en tu terminal:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+```bash
+docker -v
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+# Debería mostrar algo como:
+Docker version 20.10.23, build 100c701
+```
 
-## Laravel Sponsors
+Si no aparece la versión, puedes instalarla siguiendo las instrucciones de la documentación oficial de Docker.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
 
-### Premium Partners
+Una vez instalado docker, ingresa a la carpeta /docker y copia el archivo `.env.example` a `.env`.
+para tener la configuración necesaria para las credenciales de la base de datos en el servicio de docker-compose.
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+En la raiz del proyecto tambien debes copiar el archivo `.env.example` a `.env` y cambiar las credenciales de la base de datos, si dejaste las mismas credenciales del archivo `/docker/.env` no necesitas cambiar nada.
 
-## Contributing
+Después de esto, ejecuta el siguiente comando para levantar los servicios de docker-compose:
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
 
-## Code of Conduct
+```bash
+cd docker
+docker-compose up
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+en otra terminal ejecuta el siguiente comando para ingresar al container de php:
 
-## Security Vulnerabilities
+```bash
+docker exec -it legalario_app bash
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Si todo ha ido bien, deberías ver algo como esto:
 
-## License
+```bash
+root@legalario_app:/var/www# 
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Ahora puedes ejecutar los comandos de composer para instalar las dependencias del proyecto:
+
+```bash
+composer install
+```
+
+Correr las migraciones de la base de datos:
+
+```bash
+php artisan migrate
+```
+
+Una vez instaladas las dependencias, ejecuta el siguiente comando para ejecutar los seeders de la base de datos:
+
+```bash
+php artisan db:seed
+```
+
+La aplicación por defecto estara corriendo en el puerto `8091` (puedes cambiar el puerto en el archivo docker-compose), para acceder a la aplicación en tu navegador con el siguiente enlace:
+
+http://localhost:8091
+
+Para correr los tests de la aplicación, ejecuta el siguiente comando:
+
+```bash
+php artisan test
+```
+
+Usuario inicial de la aplicación:
+
+Se encuentra configurado en el archivo `database/seeders/UsersSeeder.php`
