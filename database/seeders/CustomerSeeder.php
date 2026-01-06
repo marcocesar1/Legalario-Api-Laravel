@@ -18,6 +18,6 @@ class CustomerSeeder extends Seeder
             return;
         }
         
-        Customer::factory(50)->create();
+        Customer::factory()->count(50)->create();
     }
 }
