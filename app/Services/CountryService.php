@@ -2,19 +2,16 @@
 
 namespace App\Services;
 
-use App\Models\Customer;
+use App\Models\Country;
 use Illuminate\Support\Collection;
 
 class CountryService
 {
     public function findAll(): Collection
     {
-        $countries = Customer::query()
-                        ->select('country')
-                        ->distinct()
-                        ->orderBy('country')
-                        ->get()
-                        ->pluck('country');
+        $countries = Country::query()
+                            ->orderBy('name')
+                            ->get();
 
         return $countries;
     }

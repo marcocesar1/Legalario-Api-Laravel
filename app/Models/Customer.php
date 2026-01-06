@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Customer extends Model
 {
@@ -14,20 +15,15 @@ class Customer extends Model
         'name',
         'email',
         'age',
-        'country',
+        'country_id',
     ];
 
     protected $cast = [
         'age' => 'integer',
     ];
 
-    /**
-     * Interact with the country attribute.
-     */
-    protected function country(): Attribute
+    public function country(): BelongsTo
     {
-        return Attribute::make(
-            set: fn (string $value) => strtoupper($value),
-        );
+        return $this->belongsTo(Country::class);
     }
 }

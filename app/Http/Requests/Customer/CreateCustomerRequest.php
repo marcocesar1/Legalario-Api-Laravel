@@ -25,7 +25,7 @@ class CreateCustomerRequest extends FormRequest
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:customers',
             'age' => 'required|integer|min:0|max:120',
-            'country' => 'required|string|max:3',
+            'country_id' => 'required|integer|exists:countries,id',
         ];
     }
 }

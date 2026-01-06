@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Customers;
 
+use App\Models\Country;
 use App\Models\Customer;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -31,7 +32,13 @@ class CustomerListTest extends TestCase
       */
      public function test_create_customer_with_user_logged_in(): void
      {
-        Customer::factory()->count(5)->create();
+         $country = Country::create([
+            'name' => 'México',
+         ]);
+
+        Customer::factory()->count(5)->create([
+            'country_id' => $country->id,
+        ]);
          
         $user = User::factory()->create();
 

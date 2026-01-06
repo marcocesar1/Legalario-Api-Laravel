@@ -9,7 +9,11 @@ class CustomerService
 {
     public function create(array $data): Customer
     {
-        return Customer::create($data);
+        $customer = new Customer();
+        $customer->fill($data);
+        $customer->save();
+
+        return $customer;
     }
 
     public function findAll(array $filters): LengthAwarePaginator
@@ -19,11 +23,14 @@ class CustomerService
         $perPage = $filters['per_page'] ?? 10;
 
         $customers = Customer::query()
+                        ->with('country')
                         ->when($search, function ($query) use ($search) {
                             return $query->where('name', 'like', '%' . $search . '%')
                                         ->orWhere('email', 'like', '%' . $search . '%');
                         })
-                        ->when($country, fn ($query) => $query->where('country', $country))
+                        ->when($country, function ($query) use ($country) {
+                            return $query->where('country_id', $country);
+                        })
                         ->orderBy('name')
                         ->paginate($perPage);
 

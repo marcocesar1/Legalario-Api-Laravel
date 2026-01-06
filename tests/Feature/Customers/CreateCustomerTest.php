@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Customers;
 
+use App\Models\Country;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
@@ -10,6 +11,17 @@ use Tests\TestCase;
 class CreateCustomerTest extends TestCase
 {
      use RefreshDatabase;
+
+     protected Country $country;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->country = Country::create([
+            'name' => 'México',
+        ]);
+    }
 
      /**
       * Test create customer with user not logged in.
@@ -35,7 +47,7 @@ class CreateCustomerTest extends TestCase
             'name' => '',
             'email' => 'test@example.com',
             'age' => 20,
-            'country' => 'MEX',
+            'country_id' => $this->country->id,
         ]);
         
         $response->assertJsonFragment([
@@ -55,7 +67,7 @@ class CreateCustomerTest extends TestCase
             'name' => 'Usuario',
             'email' => 'email',
             'age' => 20,
-            'country' => 'MEX',
+            'country_id' => $this->country->id,
         ]);
 
         $response->assertJsonFragment([
@@ -75,7 +87,7 @@ class CreateCustomerTest extends TestCase
             'name' => 'Usuario',
             'email' => 'test@example.com',
             'age' => 'age',
-            'country' => 'MEX',
+            'country_id' => $this->country->id,
         ]);
 
         $response->assertJsonFragment([
@@ -95,7 +107,7 @@ class CreateCustomerTest extends TestCase
             'name' => 'Usuario',
             'email' => 'test@example.com',
             'age' => 30,
-            'country' => 'MEX',
+            'country_id' => $this->country->id,
         ]);
 
         $response->assertStatus(Response::HTTP_OK);
